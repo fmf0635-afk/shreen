@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0758d8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="BlueWave"><meta name="mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="style.css">
+<title>BlueWave Swimming Club</title>
+</head>
+<body><div id="loginScreen" class="login-screen">
+<div class="login-card"><div class="login-logo">🏊</div><span class="eyebrow">BLUEWAVE ADMIN</span><h1>Admin Login</h1><p>Only the club administrator can add swimmers or publish posts.</p>
+<form onsubmit="login(event)"><input id="loginUser" autocomplete="username" placeholder="Username" required><input id="loginPass" type="password" autocomplete="current-password" placeholder="Password" required><button class="primary" type="submit">Sign in as admin</button><div id="loginError"></div></form>
+<button class="visitor-btn" onclick="enterVisitor()">Continue as visitor</button></div></div><header class="igbar"><div class="igbrand">🏊 <b>BlueWave</b></div><div class="igsearch">⌕ <input id="homeSearch" placeholder="Search swimmers, coaches, achievements…" oninput="homeSearch(this.value)"></div><div class="igactions"><button onclick="go('dashboard')">⚙️</button><button onclick="go('public')">♡</button><button onclick="showInstall()">📲</button></div></header><main class="instagram-home"><section class="feed"><div class="stories card"><div class="admin-post-btn" id="adminPostBtn" onclick="openPost()">＋ Post</div><div class="story"><div class="storyring">＋</div><small>Your story</small></div><div class="story"><div class="storyring">🏊</div><small>BlueWave</small></div><div class="story"><div class="storyring">⭐</div><small>Stars</small></div><div class="story"><div class="storyring">🏆</div><small>Champions</small></div><div class="story"><div class="storyring">🌊</div><small>Training</small></div></div><div class="post card"><div class="posthead"><div class="profile"><div class="miniavatar">🏊</div><div><b>bluewave.swimming</b><small>Swimming Club · Official</small></div></div><span>•••</span></div><div class="hero-photo"><div class="swimmer-art">🏊‍♂️</div><div class="photo-copy"><span>BLUEWAVE SWIMMING CLUB</span><strong>Make a splash.</strong><small>Train • Compete • Achieve</small></div></div><div class="postactions">♡　💬　↗ <span class="save">⌑</span></div><b class="likes">BlueWave Swimming Club</b><p><b>bluewave.swimming</b> Welcome to our swimming community 🌊 Follow our swimmers, coaches, achievements and training journey.</p><small class="muted">Discover our swimmers below</small></div><div id="homeFeed"></div></section><aside class="sidebar"><div class="profile card sideprofile"><div class="bigmini">🏊</div><div><b>BlueWave Swimming Club</b><small>Swimming community</small></div><button class="linkbtn" onclick="go('public')">View</button></div><div class="card suggestions"><div class="suggesthead"><b>Suggested swimmers</b><small>See all</small></div><div id="suggestions"></div></div><div class="sideinfo">About · Coaches · Swimmers · Achievements · Install App<br><br>© 2026 BlueWave Swimming Club</div></aside></main><div class="bottomnav"><button onclick="window.scrollTo({top:0,behavior:'smooth'})">⌂<small>Home</small></button><button onclick="document.getElementById('homeSearch').focus()">⌕<small>Search</small></button><button onclick="showInstall()">＋<small>Install</small></button><button onclick="go('public')">♡<small>Profiles</small></button><button onclick="go('dashboard')">⚙<small>Admin</small></button></div><section id="dashboard" class="page active"><div class="swimMotif"><span>〰</span><span>〰</span><span>〰</span></div>
+  <div class="hero"><div><span class="eyebrow">ADMIN CONTROL CENTER</span><h1>Swimming Club Management</h1><p>Manage swimmers, coaches, ratings and monthly payments in one place.</p></div><div><button class="primary" onclick="openSwimmer()">＋ Add swimmer</button><button class="secondary" onclick="openPost()">＋ Post</button><button class="secondary" onclick="logout()">Logout</button></div></div>
+  <div class="stats" id="stats"></div>
+  <div class="grid2">
+    <div class="card"><div class="cardhead"><h2>Payment overview</h2><button class="linkbtn" onclick="go('swimmers')">View swimmers →</button></div><div id="paymentOverview"></div></div>
+    <div class="card"><div class="cardhead"><h2>Top swimmers</h2></div><div id="topSwimmers"></div></div>
+  </div>
+</section>
+
+<section id="swimmers" class="page">
+  <div class="sectionhead"><div><span class="eyebrow">MEMBERS</span><h1>Swimmers</h1></div><button class="primary" onclick="openSwimmer()">＋ Add swimmer</button></div>
+  <div class="toolbar"><input id="search" placeholder="Search by name or ID…" oninput="renderSwimmers()"><select id="coachFilter" onchange="renderSwimmers()"><option value="">All coaches</option></select><select id="paymentFilter" onchange="renderSwimmers()"><option value="">All payments</option><option value="paid">Paid this month</option><option value="unpaid">Unpaid this month</option></select></div>
+  <div id="swimmerTable" class="tablewrap"></div>
+</section>
+
+<section id="coaches" class="page">
+  <div class="sectionhead"><div><span class="eyebrow">STAFF</span><h1>Coaches</h1></div><button class="primary" onclick="openCoach()">＋ Add coach</button></div>
+  <div id="coachGrid" class="coachgrid"></div>
+</section>
+
+<section id="public" class="page">
+  <div class="publichero"><span class="eyebrow">VISITOR PORTAL</span><h1>Meet our swimmers</h1><p>Explore public swimmer profiles, coaches, levels, ratings and achievements.</p><input id="publicSearch" placeholder="Search swimmers…" oninput="renderPublic()"></div>
+  <div id="publicGrid" class="swimmergrid"></div>
+</section>
+</main>
+</div>
+
+<div id="modal" class="modal hidden"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<div id="installHelp" class="install-help hidden">
+<div class="install-panel"><button class="close" onclick="closeInstallHelp()">×</button>
+<h2>📲 Install BlueWave</h2>
+<p><b>iPhone / iPad:</b> Open this website in Safari → tap Share → <b>Add to Home Screen</b> → Add.</p>
+<p><b>Android:</b> Tap <b>Install App</b> or the browser menu → <b>Install app</b>.</p>
+<p><b>Windows:</b> In Chrome or Edge, select the install icon in the address bar or menu → <b>Install BlueWave</b>.</p>
+</div></div><div id="toast"></div>
+<script src="app.js"></script>
+<div id="modal" class="modal hidden"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div><div id="installHelp" class="install-help hidden"><div class="install-panel"><button class="close" onclick="closeInstallHelp()">×</button><h2>📲 Install BlueWave</h2><p><b>iPhone/iPad:</b> Safari → Share → <b>Add to Home Screen</b>.</p><p><b>Android:</b> browser menu → <b>Install app</b>.</p><p><b>Windows:</b> Chrome/Edge → Install icon/menu → <b>Install BlueWave</b>.</p></div></div><div id="toast"></div></body></html>
