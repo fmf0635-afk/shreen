@@ -4,8 +4,38 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0758d8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="BlueWave"><meta name="mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="style.css">
 <title>BlueWave Swimming Club</title>
+
+<style>
+.accountbar{position:fixed;top:72px;right:20px;z-index:20;display:flex;gap:8px}
+.account-btn,.install-btn{border:1px solid #d8e4ef;background:#fff;color:#0758d8;border-radius:20px;padding:9px 14px;font-weight:700;box-shadow:0 4px 14px #1234 08}
+.account-modal{position:fixed;inset:0;background:#09213b99;display:none;place-items:center;z-index:50;padding:20px}.account-modal.show{display:grid}
+.account-box{background:#fff;border-radius:18px;width:min(430px,100%);padding:26px;position:relative}.account-box h2{margin-top:0}
+.account-box input{width:100%;padding:12px;border:1px solid #d7e3ef;border-radius:9px;margin:6px 0 12px}.account-box button{margin-top:5px}
+.post-social{display:flex;gap:18px;padding:12px 14px;border-top:1px solid #eef3f7}.post-social button{border:0;background:none;font-size:22px;cursor:pointer}.post-social .liked{color:#e43f66}.comment-box{display:flex;gap:7px;padding:8px 14px 14px}.comment-box input{flex:1;border:1px solid #d7e3ef;border-radius:18px;padding:9px 12px}.comment-box button{border:0;background:#0758d8;color:#fff;border-radius:18px;padding:8px 14px}.comments{padding:0 14px 10px;font-size:13px}.install-fab{position:fixed;right:22px;bottom:22px;width:58px;height:58px;border-radius:50%;border:0;background:#0758d8;color:#fff;font-size:25px;box-shadow:0 8px 25px #0758d855;z-index:30}.account-tabs{display:flex;gap:8px;margin-bottom:12px}.account-tabs button{flex:1;border:1px solid #d7e3ef;background:#f7fafc;padding:9px;border-radius:9px}.account-tabs .active{background:#0758d8;color:#fff}
+</style>
 </head>
-<body><div id="loginScreen" class="login-screen">
+<body>
+<div class="accountbar">
+  <button class="account-btn" onclick="openAccount()">👤 <span id="accountLabel">Sign in</span></button>
+</div>
+<button class="install-fab" onclick="installOrExplain()" title="Install BlueWave">📲</button>
+<div id="accountModal" class="account-modal">
+ <div class="account-box">
+  <button onclick="closeAccount()" style="position:absolute;right:14px;top:10px;border:0;background:none;font-size:25px">×</button>
+  <h2>BlueWave Account</h2>
+  <div class="account-tabs"><button id="loginTab" class="active" onclick="accountMode('login')">Sign in</button><button id="signupTab" onclick="accountMode('signup')">Create account</button></div>
+  <form id="accountForm" onsubmit="submitAccount(event)">
+   <label>Name</label><input id="accName" placeholder="Your name">
+   <label>Email</label><input id="accEmail" type="email" required placeholder="name@example.com">
+   <label>Mobile number</label><input id="accPhone" required placeholder="01xxxxxxxxx">
+   <label id="passLabel">Password</label><input id="accPass" type="password" required minlength="4" placeholder="Password">
+   <button class="primary" style="width:100%" id="accountSubmit">Sign in</button>
+  </form>
+  <button id="logoutBtn" class="secondary" style="width:100%;display:none" onclick="logoutVisitor()">Log out</button>
+  <p id="accountNote" style="color:#71869b;font-size:12px"></p>
+ </div>
+</div>
+<div id="loginScreen" class="login-screen">
 <div class="login-card"><div class="login-logo">🏊</div><span class="eyebrow">BLUEWAVE ADMIN</span><h1>Admin Login</h1><p>Only the club administrator can add swimmers or publish posts.</p>
 <form onsubmit="login(event)"><input id="loginUser" autocomplete="username" placeholder="Username" required><input id="loginPass" type="password" autocomplete="current-password" placeholder="Password" required><button class="primary" type="submit">Sign in as admin</button><div id="loginError"></div></form>
 <button class="visitor-btn" onclick="enterVisitor()">Continue as visitor</button></div></div><header class="igbar"><div class="igbrand">🏊 <b>BlueWave</b></div><div class="igsearch">⌕ <input id="homeSearch" placeholder="Search swimmers, coaches, achievements…" oninput="homeSearch(this.value)"></div><div class="igactions"><button onclick="go('dashboard')">⚙️</button><button onclick="go('public')">♡</button><button onclick="showInstall()">📲</button></div></header><main class="instagram-home"><section class="feed"><div class="stories card"><div class="admin-post-btn" id="adminPostBtn" onclick="openPost()">＋ Post</div><div class="story"><div class="storyring">＋</div><small>Your story</small></div><div class="story"><div class="storyring">🏊</div><small>BlueWave</small></div><div class="story"><div class="storyring">⭐</div><small>Stars</small></div><div class="story"><div class="storyring">🏆</div><small>Champions</small></div><div class="story"><div class="storyring">🌊</div><small>Training</small></div></div><div class="post card"><div class="posthead"><div class="profile"><div class="miniavatar">🏊</div><div><b>bluewave.swimming</b><small>Swimming Club · Official</small></div></div><span>•••</span></div><div class="hero-photo"><div class="swimmer-art">🏊‍♂️</div><div class="photo-copy"><span>BLUEWAVE SWIMMING CLUB</span><strong>Make a splash.</strong><small>Train • Compete • Achieve</small></div></div><div class="postactions">♡　💬　↗ <span class="save">⌑</span></div><b class="likes">BlueWave Swimming Club</b><p><b>bluewave.swimming</b> Welcome to our swimming community 🌊 Follow our swimmers, coaches, achievements and training journey.</p><small class="muted">Discover our swimmers below</small></div><div id="homeFeed"></div></section><aside class="sidebar"><div class="profile card sideprofile"><div class="bigmini">🏊</div><div><b>BlueWave Swimming Club</b><small>Swimming community</small></div><button class="linkbtn" onclick="go('public')">View</button></div><div class="card suggestions"><div class="suggesthead"><b>Suggested swimmers</b><small>See all</small></div><div id="suggestions"></div></div><div class="sideinfo">About · Coaches · Swimmers · Achievements · Install App<br><br>© 2026 BlueWave Swimming Club</div></aside></main><div class="bottomnav"><button onclick="window.scrollTo({top:0,behavior:'smooth'})">⌂<small>Home</small></button><button onclick="document.getElementById('homeSearch').focus()">⌕<small>Search</small></button><button onclick="showInstall()">＋<small>Install</small></button><button onclick="go('public')">♡<small>Profiles</small></button><button onclick="go('dashboard')">⚙<small>Admin</small></button></div><section id="dashboard" class="page active"><div class="swimMotif"><span>〰</span><span>〰</span><span>〰</span></div>
@@ -44,4 +74,24 @@
 <p><b>Windows:</b> In Chrome or Edge, select the install icon in the address bar or menu → <b>Install BlueWave</b>.</p>
 </div></div><div id="toast"></div>
 <script src="app.js"></script>
-<div id="modal" class="modal hidden"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div><div id="installHelp" class="install-help hidden"><div class="install-panel"><button class="close" onclick="closeInstallHelp()">×</button><h2>📲 Install BlueWave</h2><p><b>iPhone/iPad:</b> Safari → Share → <b>Add to Home Screen</b>.</p><p><b>Android:</b> browser menu → <b>Install app</b>.</p><p><b>Windows:</b> Chrome/Edge → Install icon/menu → <b>Install BlueWave</b>.</p></div></div><div id="toast"></div></body></html>
+<div id="modal" class="modal hidden"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div><div id="installHelp" class="install-help hidden"><div class="install-panel"><button class="close" onclick="closeInstallHelp()">×</button><h2>📲 Install BlueWave</h2><p><b>iPhone/iPad:</b> Safari → Share → <b>Add to Home Screen</b>.</p><p><b>Android:</b> browser menu → <b>Install app</b>.</p><p><b>Windows:</b> Chrome/Edge → Install icon/menu → <b>Install BlueWave</b>.</p></div></div><div id="toast"></div>
+<script>
+let visitorUser=JSON.parse(localStorage.getItem("bluewave_visitor")||"null");
+let accountAction="login", deferredPrompt=null;
+function openAccount(){document.getElementById("accountModal").classList.add("show");updateAccountUI()}
+function closeAccount(){document.getElementById("accountModal").classList.remove("show")}
+function accountMode(m){accountAction=m;document.getElementById("loginTab").classList.toggle("active",m==="login");document.getElementById("signupTab").classList.toggle("active",m==="signup");document.getElementById("accName").style.display=m==="signup"?"block":"none";document.getElementById("passLabel").textContent=m==="signup"?"Create password":"Password";document.getElementById("accountSubmit").textContent=m==="signup"?"Create account":"Sign in";updateAccountUI()}
+function updateAccountUI(){document.getElementById("accountLabel").textContent=visitorUser?visitorUser.name:"Sign in";document.getElementById("logoutBtn").style.display=visitorUser?"block":"none";document.getElementById("accountForm").style.display=visitorUser?"none":"block";document.getElementById("accountNote").textContent=visitorUser?"You can like, save and comment on posts.":"Create a free visitor account with your email and mobile number."}
+function submitAccount(e){e.preventDefault();let email=document.getElementById("accEmail").value.trim(),phone=document.getElementById("accPhone").value.trim(),name=document.getElementById("accName").value.trim()||email.split("@")[0],pass=document.getElementById("accPass").value;if(accountAction==="signup"){visitorUser={name,email,phone,pass};localStorage.setItem("bluewave_visitor",JSON.stringify(visitorUser));toast("Account created");closeAccount()}else{let saved=JSON.parse(localStorage.getItem("bluewave_visitor")||"null");if(saved&&saved.email===email&&saved.phone===phone&&saved.pass===pass){visitorUser=saved;toast("Welcome back");closeAccount()}else{toast("Account not found. Create an account first.");}}updateAccountUI()}
+function logoutVisitor(){visitorUser=null;localStorage.removeItem("bluewave_visitor");updateAccountUI();closeAccount();toast("Logged out")}
+function requireVisitor(){if(visitorUser)return true;openAccount();toast("Sign in to like, save or comment");return false}
+function socialKey(id,type){return "bw_"+type+"_"+id}
+function toggleLike(id){if(!requireVisitor())return;let k=socialKey(id,"like"),v=localStorage.getItem(k)==="1";localStorage.setItem(k,v?"0":"1");renderSocial(id)}
+function toggleSave(id){if(!requireVisitor())return;let k=socialKey(id,"save"),v=localStorage.getItem(k)==="1";localStorage.setItem(k,v?"0":"1");renderSocial(id)}
+function addComment(id){if(!requireVisitor())return;let inp=document.getElementById("comment_"+id),txt=inp.value.trim();if(!txt)return;let arr=JSON.parse(localStorage.getItem(socialKey(id,"comments"))||"[]");arr.push({name:visitorUser.name,text:txt});localStorage.setItem(socialKey(id,"comments"),JSON.stringify(arr));inp.value="";renderSocial(id)}
+function renderSocial(id){let like=localStorage.getItem(socialKey(id,"like"))==="1",save=localStorage.getItem(socialKey(id,"save"))==="1",arr=JSON.parse(localStorage.getItem(socialKey(id,"comments"))||"[]"),el=document.getElementById("social_"+id);if(!el)return;el.innerHTML='<div class="post-social"><button class="'+(like?'liked':'')+'" onclick="toggleLike('+id+')">'+(like?'♥':'♡')+'</button><button onclick="document.getElementById(\\'comment_'+id+'\\').focus()">💬</button><button onclick="toggleSave('+id+')">'+(save?'🔖':'⌑')+'</button></div><div class="comments">'+arr.slice(-3).map(c=>'<div><b>'+escapeHtml(c.name)+'</b> '+escapeHtml(c.text)+'</div>').join("")+'</div><div class="comment-box"><input id="comment_'+id+'" placeholder="'+(visitorUser?'Add a comment…':'Sign in to comment')+'"><button onclick="addComment('+id+')">Post</button></div>'}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function installOrExplain(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>deferredPrompt=null)}else{alert("iPhone/iPad: Safari → Share → Add to Home Screen. Android/Windows: use your browser menu → Install App.");}}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
+</script>
+</body></html>
