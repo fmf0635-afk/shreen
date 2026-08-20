@@ -1,21 +1,25 @@
 {
   "name": "BlueWave Swimming Club",
   "short_name": "BlueWave",
+  "description": "Swimming club management and swimmer profiles.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f7f8fa",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f8fc",
   "theme_color": "#0758d8",
   "icons": [
     {
       "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
