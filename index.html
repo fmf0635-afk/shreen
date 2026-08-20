@@ -15,30 +15,72 @@
 </style>
 </head>
 <body>
-<div class="accountbar">
-  <button class="account-btn" onclick="openAccount()">👤 <span id="accountLabel">Sign in</span></button>
-</div>
-<button class="install-fab" onclick="installOrExplain()" title="Install BlueWave">📲</button>
-<div id="accountModal" class="account-modal">
- <div class="account-box">
-  <button onclick="closeAccount()" style="position:absolute;right:14px;top:10px;border:0;background:none;font-size:25px">×</button>
-  <h2>BlueWave Account</h2>
-  <div class="account-tabs"><button id="loginTab" class="active" onclick="accountMode('login')">Sign in</button><button id="signupTab" onclick="accountMode('signup')">Create account</button></div>
-  <form id="accountForm" onsubmit="submitAccount(event)">
-   <label>Name</label><input id="accName" placeholder="Your name">
-   <label>Email</label><input id="accEmail" type="email" required placeholder="name@example.com">
-   <label>Mobile number</label><input id="accPhone" required placeholder="01xxxxxxxxx">
-   <label id="passLabel">Password</label><input id="accPass" type="password" required minlength="4" placeholder="Password">
-   <button class="primary" style="width:100%" id="accountSubmit">Sign in</button>
-  </form>
-  <button id="logoutBtn" class="secondary" style="width:100%;display:none" onclick="logoutVisitor()">Log out</button>
-  <p id="accountNote" style="color:#71869b;font-size:12px"></p>
+<header class="social-header">
+ <div class="social-inner">
+  <div class="brand">🏊 <b>BlueWave</b></div>
+  <div class="searchbox">⌕ <input id="socialSearch" placeholder="Search swimmers, coaches, achievements…" oninput="socialSearch(this.value)"></div>
+  <nav><button onclick="homeTop()">⌂</button><button onclick="openAccount()">♡</button><button onclick="installApp()">📲</button><button onclick="go('dashboard')">⚙️</button></nav>
  </div>
-</div>
-<div id="loginScreen" class="login-screen">
-<div class="login-card"><div class="login-logo">🏊</div><span class="eyebrow">BLUEWAVE ADMIN</span><h1>Admin Login</h1><p>Only the club administrator can add swimmers or publish posts.</p>
-<form onsubmit="login(event)"><input id="loginUser" autocomplete="username" placeholder="Username" required><input id="loginPass" type="password" autocomplete="current-password" placeholder="Password" required><button class="primary" type="submit">Sign in as admin</button><div id="loginError"></div></form>
-<button class="visitor-btn" onclick="enterVisitor()">Continue as visitor</button></div></div><header class="igbar"><div class="igbrand">🏊 <b>BlueWave</b></div><div class="igsearch">⌕ <input id="homeSearch" placeholder="Search swimmers, coaches, achievements…" oninput="homeSearch(this.value)"></div><div class="igactions"><button onclick="go('dashboard')">⚙️</button><button onclick="go('public')">♡</button><button onclick="showInstall()">📲</button></div></header><main class="instagram-home"><section class="feed"><div class="stories card"><div class="admin-post-btn" id="adminPostBtn" onclick="openPost()">＋ Post</div><div class="story"><div class="storyring">＋</div><small>Your story</small></div><div class="story"><div class="storyring">🏊</div><small>BlueWave</small></div><div class="story"><div class="storyring">⭐</div><small>Stars</small></div><div class="story"><div class="storyring">🏆</div><small>Champions</small></div><div class="story"><div class="storyring">🌊</div><small>Training</small></div></div><div class="post card"><div class="posthead"><div class="profile"><div class="miniavatar">🏊</div><div><b>bluewave.swimming</b><small>Swimming Club · Official</small></div></div><span>•••</span></div><div class="hero-photo"><div class="swimmer-art">🏊‍♂️</div><div class="photo-copy"><span>BLUEWAVE SWIMMING CLUB</span><strong>Make a splash.</strong><small>Train • Compete • Achieve</small></div></div><div class="postactions">♡　💬　↗ <span class="save">⌑</span></div><b class="likes">BlueWave Swimming Club</b><p><b>bluewave.swimming</b> Welcome to our swimming community 🌊 Follow our swimmers, coaches, achievements and training journey.</p><small class="muted">Discover our swimmers below</small></div><div id="homeFeed"></div></section><aside class="sidebar"><div class="profile card sideprofile"><div class="bigmini">🏊</div><div><b>BlueWave Swimming Club</b><small>Swimming community</small></div><button class="linkbtn" onclick="go('public')">View</button></div><div class="card suggestions"><div class="suggesthead"><b>Suggested swimmers</b><small>See all</small></div><div id="suggestions"></div></div><div class="sideinfo">About · Coaches · Swimmers · Achievements · Install App<br><br>© 2026 BlueWave Swimming Club</div></aside></main><div class="bottomnav"><button onclick="window.scrollTo({top:0,behavior:'smooth'})">⌂<small>Home</small></button><button onclick="document.getElementById('homeSearch').focus()">⌕<small>Search</small></button><button onclick="showInstall()">＋<small>Install</small></button><button onclick="go('public')">♡<small>Profiles</small></button><button onclick="go('dashboard')">⚙<small>Admin</small></button></div><section id="dashboard" class="page active"><div class="swimMotif"><span>〰</span><span>〰</span><span>〰</span></div>
+</header>
+<main class="social-layout">
+ <section>
+  <div class="stories">
+   <div class="story"><div>＋</div><small>Your story</small></div><div class="story"><div>🏊</div><small>BlueWave</small></div>
+   <div class="story"><div>🏆</div><small>Races</small></div><div class="story"><div>⭐</div><small>Stars</small></div>
+   <div class="story"><div>🧑‍🏫</div><small>Coaches</small></div><div class="story"><div>🌊</div><small>Training</small></div>
+  </div>
+  <div id="socialFeed"></div>
+ </section>
+ <aside class="social-side">
+  <div class="side-card"><div class="club-line"><span class="avatar">🏊</span><div><b>BlueWave Swimming Club</b><small>Official community</small></div></div>
+  <h4>Suggested swimmers</h4><div id="suggested"></div>
+  <div class="trends"><b>Trending</b><p>#BlueWaveTraining<br><small>Daily practice</small></p><p>#RaceDay<br><small>Competition season</small></p><p>#SwimStars<br><small>Top achievements</small></p></div></div>
+ </aside>
+</main>
+<div class="mobile-nav"><button onclick="homeTop()">⌂<small>Home</small></button><button onclick="document.getElementById('socialSearch').focus()">⌕<small>Search</small></button><button onclick="installApp()">＋<small>Install</small></button><button onclick="openAccount()">♡<small>Account</small></button><button onclick="go('dashboard')">⚙<small>Admin</small></button></div>
+<button class="install-fab" onclick="installApp()" title="Install BlueWave">📲</button>
+
+<div id="accountModal" class="overlay"><div class="account-box"><button class="x" onclick="closeAccount()">×</button>
+<h2>BlueWave Account</h2><div class="tabs"><button id="loginTab" class="active" onclick="setAccountMode('login')">Sign in</button><button id="signupTab" onclick="setAccountMode('signup')">Create account</button></div>
+<form id="accountForm" onsubmit="submitAccount(event)"><input id="visitorName" placeholder="Full name"><input id="visitorEmail" type="email" required placeholder="Email"><input id="visitorPhone" required placeholder="Mobile number"><input id="visitorPass" type="password" required minlength="4" placeholder="Password"><button class="primary" style="width:100%">Continue</button></form>
+<button id="visitorLogout" class="secondary" style="display:none;width:100%" onclick="logoutVisitor()">Log out</button><p id="accountStatus"></p></div></div>
+
+<div id="installModal" class="overlay"><div class="account-box"><button class="x" onclick="closeInstall()">×</button><h2>📲 Install BlueWave</h2>
+<p><b>iPhone/iPad:</b> Open in Safari → Share → <b>Add to Home Screen</b>.</p><p><b>Android:</b> tap <b>Install app</b> in the browser menu.</p><p><b>Windows:</b> Chrome/Edge → Install icon/menu → <b>Install BlueWave</b>.</p></div></div>
+<div id="socialToast"></div>
+
+<header class="social-top">
+ <div class="social-top-inner">
+  <div class="social-logo"><span class="wave">🏊</span> BlueWave</div>
+  <div class="social-search">⌕ <input id="socialSearch" placeholder="Search swimmers, coaches, achievements…" oninput="socialSearch(this.value)"></div>
+  <div class="social-icons">
+   <button onclick="scrollToTop()" title="Home">⌂</button>
+   <button onclick="openAccount()" title="Account">♡</button>
+   <button onclick="showInstall()" title="Install">📲</button>
+   <button onclick="go('dashboard')" title="Admin">⚙️</button>
+  </div>
+ </div>
+</header>
+<main class="social-main">
+ <section id="socialFeed">
+  <div class="stories2">
+   <div class="story2"><div class="story2-ring"><div>＋</div></div><b>Your story</b></div>
+   <div class="story2"><div class="story2-ring"><div>🏊</div></div><b>BlueWave</b></div>
+   <div class="story2"><div class="story2-ring"><div>🏆</div></div><b>Races</b></div>
+   <div class="story2"><div class="story2-ring"><div>⭐</div></div><b>Stars</b></div>
+   <div class="story2"><div class="story2-ring"><div>🧑‍🏫</div></div><b>Coaches</b></div>
+   <div class="story2"><div class="story2-ring"><div>🌊</div></div><b>Training</b></div>
+  </div>
+  <div id="socialPosts"></div>
+ </section>
+ <aside><div class="side-card"><div class="post-user"><div class="avatar">🏊</div><div><b>BlueWave Swimming Club</b><small>Official community</small></div></div><div class="side-title" style="margin-top:20px"><b>Suggested swimmers</b><span>See all</span></div><div id="socialSuggestions"></div><div class="trend"><b>Trending in BlueWave</b><div class="trend-item">#BlueWaveTraining <small>Daily practice</small></div><div class="trend-item">#RaceDay <small>Competition season</small></div><div class="trend-item">#SwimStars <small>Top achievements</small></div></div><div class="side-links">About · Coaches · Swimmers · Achievements · Community<br>© 2026 BlueWave Swimming Club</div></div></aside>
+</main>
+<button class="install-chip" onclick="installOrExplain()">📲 Install App</button>
+<div class="toast2" id="socialToast"></div>
+<div class="mobile-nav"><button onclick="scrollToTop()">⌂<small>Home</small></button><button onclick="document.getElementById('socialSearch').focus()">⌕<small>Search</small></button><button onclick="showInstall()">＋<small>Install</small></button><button onclick="openAccount()">♡<small>Account</small></button><button onclick="go('dashboard')">⚙<small>Admin</small></button></div>
+<div id="accountModal" class="account-modal"><div class="account-box"><button onclick="closeAccount()" style="position:absolute;right:14px;top:10px;border:0;background:none;font-size:25px">×</button><h2>BlueWave Account</h2><div class="account-tabs"><button id="loginTab" class="active" onclick="accountMode('login')">Sign in</button><button id="signupTab" onclick="accountMode('signup')">Create account</button></div><form id="accountForm" onsubmit="submitAccount(event)"><label id="nameLabel">Name</label><input id="accName" placeholder="Your name"><label>Email</label><input id="accEmail" type="email" required placeholder="name@example.com"><label>Mobile number</label><input id="accPhone" required placeholder="01xxxxxxxxx"><label>Password</label><input id="accPass" type="password" required minlength="4" placeholder="Password"><button class="primary" style="width:100%" id="accountSubmit">Sign in</button></form><button id="logoutBtn" class="secondary" style="width:100%;display:none" onclick="logoutVisitor()">Log out</button><p id="accountNote"></p></div></div>
+<div id="installHelp" class="account-modal"><div class="account-box"><button onclick="closeInstall()" style="position:absolute;right:14px;top:10px;border:0;background:none;font-size:25px">×</button><h2>📲 Install BlueWave</h2><p><b>iPhone/iPad:</b> Safari → Share → <b>Add to Home Screen</b>.</p><p><b>Android:</b> choose <b>Install app</b> from the browser menu.</p><p><b>Windows:</b> Chrome/Edge → Install icon → <b>Install BlueWave</b>.</p></div></div>
+<section id="dashboard" class="page active"><div class="swimMotif"><span>〰</span><span>〰</span><span>〰</span></div>
   <div class="hero"><div><span class="eyebrow">ADMIN CONTROL CENTER</span><h1>Swimming Club Management</h1><p>Manage swimmers, coaches, ratings and monthly payments in one place.</p></div><div><button class="primary" onclick="openSwimmer()">＋ Add swimmer</button><button class="secondary" onclick="openPost()">＋ Post</button><button class="secondary" onclick="logout()">Logout</button></div></div>
   <div class="stats" id="stats"></div>
   <div class="grid2">
@@ -93,5 +135,66 @@ function renderSocial(id){let like=localStorage.getItem(socialKey(id,"like"))===
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 function installOrExplain(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>deferredPrompt=null)}else{alert("iPhone/iPad: Safari → Share → Add to Home Screen. Android/Windows: use your browser menu → Install App.");}}
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
+</script>
+
+<script>
+let bwVisitor=JSON.parse(localStorage.getItem("bw_visitor")||"null");
+let bwInstallPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();bwInstallPrompt=e});
+function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}
+function showInstall(){document.getElementById("installHelp").classList.add("show")}
+function closeInstall(){document.getElementById("installHelp").classList.remove("show")}
+function installOrExplain(){if(bwInstallPrompt){bwInstallPrompt.prompt();bwInstallPrompt.userChoice.finally(()=>bwInstallPrompt=null)}else showInstall()}
+function openAccount(){document.getElementById("accountModal").classList.add("show");updateAccount()}
+function closeAccount(){document.getElementById("accountModal").classList.remove("show")}
+function accountMode(m){window.bwMode=m;document.getElementById("loginTab").classList.toggle("active",m!=="signup");document.getElementById("signupTab").classList.toggle("active",m==="signup");document.getElementById("accName").style.display=m==="signup"?"block":"none";document.getElementById("nameLabel").style.display=m==="signup"?"block":"none";document.getElementById("accountSubmit").textContent=m==="signup"?"Create account":"Sign in"}
+window.bwMode="login";
+function updateAccount(){document.getElementById("accountForm").style.display=bwVisitor?"none":"block";document.getElementById("logoutBtn").style.display=bwVisitor?"block":"none";document.getElementById("accountNote").textContent=bwVisitor?"Signed in as "+bwVisitor.name+". You can like, save and comment.":"Create a free visitor account."}
+function submitAccount(e){e.preventDefault();let email=accEmail.value.trim(),phone=accPhone.value.trim(),pass=accPass.value;if(window.bwMode==="signup"){bwVisitor={name:accName.value.trim()||email.split("@")[0],email,phone,pass};localStorage.setItem("bw_visitor",JSON.stringify(bwVisitor));toast2("Welcome to BlueWave!");closeAccount()}else{let s=JSON.parse(localStorage.getItem("bw_visitor")||"null");if(!s||s.email!==email||s.phone!==phone||s.pass!==pass){toast2("Account details not found.");return}bwVisitor=s;toast2("Welcome back!");closeAccount()}updateAccount()}
+function logoutVisitor(){bwVisitor=null;localStorage.removeItem("bw_visitor");updateAccount();closeAccount()}
+function needUser(){if(bwVisitor)return true;openAccount();toast2("Sign in to interact with posts.");return false}
+function postStore(id,key,def){return JSON.parse(localStorage.getItem("bw_"+key+"_"+id)||JSON.stringify(def))}
+function saveStore(id,key,val){localStorage.setItem("bw_"+key+"_"+id,JSON.stringify(val))}
+function socialData(id){return {liked:localStorage.getItem("bw_like_"+id)==="1",saved:localStorage.getItem("bw_save_"+id)==="1",comments:postStore(id,"comments",[])}}
+function toggleLike(id){if(!needUser())return;let d=socialData(id);localStorage.setItem("bw_like_"+id,d.liked?"0":"1");renderSocial(id)}
+function toggleSave(id){if(!needUser())return;let d=socialData(id);localStorage.setItem("bw_save_"+id,d.saved?"0":"1");renderSocial(id)}
+function addSocialComment(id){if(!needUser())return;let x=document.getElementById("ci_"+id),t=x.value.trim();if(!t)return;let a=postStore(id,"comments",[]);a.push({name:bwVisitor.name,text:t});saveStore(id,"comments",a);x.value="";renderSocial(id)}
+function renderSocial(id){let el=document.getElementById("social_"+id);if(!el)return;let d=socialData(id);el.innerHTML='<div class="post-tools"><button class="'+(d.liked?"active":"")+'" onclick="toggleLike('+id+')">'+(d.liked?"♥":"♡")+'</button><button onclick="document.getElementById(\\'ci_'+id+'\\').focus()">💬</button><button onclick="toggleSave('+id+')" class="save">'+(d.saved?"🔖":"⌑")+'</button></div><div class="post-comments">'+d.comments.slice(-4).map(c=>'<div class="comment-row"><b>'+esc(c.name)+'</b>'+esc(c.text)+'</div>').join("")+'</div><div class="comment-input"><input id="ci_'+id+'" placeholder="'+(bwVisitor?"Add a comment…":"Sign in to comment")+'"><button onclick="addSocialComment('+id+')">Post</button></div>'}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function toast2(t){let x=document.getElementById("socialToast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",2200)}
+function initials(n){return (n||"SW").split(" ").slice(0,2).map(x=>x[0]).join("").toUpperCase()}
+function socialPost(s,i){let id=s.id||i+1, coachName=(typeof coach==="function"&&coach(s.coach)?.name)||s.coach||"BlueWave Coach";return '<article class="social-post"><div class="post-head"><div class="post-user"><div class="avatar">'+initials(s.name)+'</div><div><b>'+esc(s.name)+'</b><small>'+esc(coachName)+' · '+esc(s.level||"Swimmer")+'</small></div></div><span>•••</span></div><div class="post-cover"><div class="water-emoji">🏊‍♂️</div><div class="cover-text"><span>BLUEWAVE SWIMMER</span><h2>'+esc(s.name)+'</h2><p>⭐ '+esc(s.rating||5)+'/5 · '+esc(s.stars||0)+' stars</p></div></div><div id="social_'+id+'"></div><div class="post-body"><div class="caption"><b>'+esc(s.name)+'</b> '+esc(s.achievements||"Making waves and reaching new goals! 🌊")+'</div></div></article>'}
+function renderSocialFeed(arr){document.getElementById("socialPosts").innerHTML=(arr||[]).slice(0,8).map(socialPost).join("")||'<div class="social-post"><div class="post-body">No swimmers yet. The admin can add the first swimmer.</div></div>';(arr||[]).slice(0,8).forEach((s,i)=>renderSocial(s.id||i+1));renderSuggestions(arr||[])}
+function renderSuggestions(arr){let x=document.getElementById("socialSuggestions");x.innerHTML=(arr||[]).slice(0,5).map(s=>'<div class="suggest2"><div class="avatar">'+initials(s.name)+'</div><div class="sinfo"><b>'+esc(s.name)+'</b><small>'+esc(s.level||"Swimmer")+'</small></div><button onclick="viewSwimmer && viewSwimmer('+s.id+')">View</button></div>').join("")}
+function socialSearch(q){let a=(typeof data!=="undefined"?data.swimmers:[]).filter(s=>(s.name+" "+(s.level||"")+" "+(s.achievements||"")).toLowerCase().includes(q.toLowerCase()));renderSocialFeed(a)}
+setTimeout(()=>{if(typeof data!=="undefined")renderSocialFeed(data.swimmers||[]);updateAccount()},50);
+</script>
+
+<script>
+let bwUser=JSON.parse(localStorage.getItem("bluewave_visitor")||"null"), bwMode="login", bwPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();bwPrompt=e});
+function homeTop(){window.scrollTo({top:0,behavior:"smooth"})}
+function installApp(){if(bwPrompt){bwPrompt.prompt();bwPrompt.userChoice.finally(()=>bwPrompt=null)}else document.getElementById("installModal").classList.add("show")}
+function closeInstall(){document.getElementById("installModal").classList.remove("show")}
+function openAccount(){document.getElementById("accountModal").classList.add("show");updateAccountUI()}
+function closeAccount(){document.getElementById("accountModal").classList.remove("show")}
+function setAccountMode(m){bwMode=m;loginTab.classList.toggle("active",m==="login");signupTab.classList.toggle("active",m==="signup");visitorName.style.display=m==="signup"?"block":"none";accountForm.querySelector("#visitorName").required=m==="signup";accountStatus.textContent=m==="signup"?"Create an account to interact with the community.":"Sign in to like, save and comment."}
+function updateAccountUI(){visitorLogout.style.display=bwUser?"block":"none";accountForm.style.display=bwUser?"none":"block";accountStatus.textContent=bwUser?"Signed in as "+bwUser.name:"Sign in or create your free visitor account."}
+function submitAccount(e){e.preventDefault();let email=visitorEmail.value.trim(),phone=visitorPhone.value.trim(),pass=visitorPass.value;if(bwMode==="signup"){bwUser={name:visitorName.value.trim()||email.split("@")[0],email,phone,pass};localStorage.setItem("bluewave_visitor",JSON.stringify(bwUser));toast("Account created");closeAccount()}else{let s=JSON.parse(localStorage.getItem("bluewave_visitor")||"null");if(!s||s.email!==email||s.phone!==phone||s.pass!==pass){toast("No matching account. Create an account first.");return}bwUser=s;toast("Welcome back");closeAccount()}updateAccountUI()}
+function logoutVisitor(){bwUser=null;localStorage.removeItem("bluewave_visitor");updateAccountUI()}
+function needUser(){if(bwUser)return true;openAccount();toast("Sign in to interact with posts.");return false}
+function toast(t){let x=document.getElementById("socialToast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",2200)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function key(id,t){return "bw_"+t+"_"+id}
+function social(id){return {like:localStorage.getItem(key(id,"like"))==="1",save:localStorage.getItem(key(id,"save"))==="1",comments:JSON.parse(localStorage.getItem(key(id,"comments"))||"[]")}}
+function likePost(id){if(!needUser())return;let d=social(id);localStorage.setItem(key(id,"like"),d.like?"0":"1");renderSocial(id)}
+function savePost(id){if(!needUser())return;let d=social(id);localStorage.setItem(key(id,"save"),d.save?"0":"1");renderSocial(id)}
+function commentPost(id){if(!needUser())return;let x=document.getElementById("comment_"+id),t=x.value.trim();if(!t)return;let a=social(id).comments;a.push({name:bwUser.name,text:t});localStorage.setItem(key(id,"comments"),JSON.stringify(a));x.value="";renderSocial(id)}
+function renderSocial(id){let e=document.getElementById("social_"+id);if(!e)return;let d=social(id);e.innerHTML='<div class="social-actions"><button class="'+(d.like?"active":"")+'" onclick="likePost('+id+')">'+(d.like?"♥":"♡")+'</button><button onclick="document.getElementById(\\'comment_'+id+'\\').focus()">💬</button><button class="save" onclick="savePost('+id+')">'+(d.save?"🔖":"⌑")+'</button></div><div class="comments">'+d.comments.slice(-5).map(c=>'<div><b>'+esc(c.name)+'</b> '+esc(c.text)+'</div>').join("")+'</div><div class="comment-input"><input id="comment_'+id+'" placeholder="Add a comment…"><button onclick="commentPost('+id+')">Post</button></div>'}
+function makePost(s,i){let id=s.id||i+1;return '<article class="social-post"><div class="social-head"><div class="userline"><div class="avatar">🏊</div><div><b>'+esc(s.name)+'</b><small>'+esc(s.level||"Swimmer")+' · BlueWave</small></div></div><span>•••</span></div><div class="cover"><div class="emoji">🏊‍♂️</div><div class="text"><span>BLUEWAVE SWIMMER</span><h2>'+esc(s.name)+'</h2><p>⭐ '+esc(s.rating||5)+'/5 · '+esc(s.stars||0)+' stars</p></div></div><div id="social_'+id+'"></div><div class="caption"><b>'+esc(s.name)+'</b> '+esc(s.achievements||"Training hard and making waves! 🌊")+'</div></article>'}
+function renderFeed(arr){let f=document.getElementById("socialFeed");f.innerHTML='<div class="stories"></div>'+((arr||[]).slice(0,10).map(makePost).join("")||'<div class="social-post"><div class="caption">No swimmers yet — admin can add the first one.</div></div>');(arr||[]).slice(0,10).forEach((s,i)=>renderSocial(s.id||i+1));renderSuggested(arr||[])}
+function renderSuggested(arr){let x=document.getElementById("suggested");x.innerHTML=(arr||[]).slice(0,5).map(s=>'<div class="suggest"><div class="avatar">🏊</div><div class="info"><b>'+esc(s.name)+'</b><small>'+esc(s.level||"Swimmer")+'</small></div><button onclick="viewSwimmer && viewSwimmer('+s.id+')">View</button></div>').join("")}
+function socialSearch(q){let a=(typeof data!=="undefined"?data.swimmers||[]:[]).filter(s=>(s.name+" "+(s.level||"")+" "+(s.achievements||"")).toLowerCase().includes(q.toLowerCase()));renderFeed(a)}
+setTimeout(()=>{if(typeof data!=="undefined")renderFeed(data.swimmers||[]);updateAccountUI();setAccountMode("login")},100);
 </script>
 </body></html>
